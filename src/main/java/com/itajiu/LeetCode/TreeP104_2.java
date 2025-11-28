@@ -14,14 +14,28 @@ import java.util.LinkedList;
 public class TreeP104_2 {
 
     //后序遍历
-    public int maxDepth(Tree_Node root){
+    public int maxDepth(Tree_Node root) {
         Tree_Node curr = root;
         Tree_Node pop = null;
         LinkedList<Tree_Node> stack = new LinkedList<>();
-
-        while(curr != null && !stack.isEmpty()){
-
+        int max = 0; //最大深度
+        while (curr != null && !stack.isEmpty()) {
+            if (curr != null) {
+                stack.push(curr);
+                int size = stack.size();
+                if (size > max) {
+                    max = size;
+                }
+                curr = curr.left;
+            } else {
+                Tree_Node peek = stack.peek();
+                if (peek.right == null || peek.right == pop) {
+                    pop = stack.pop();
+                } else {
+                    curr = peek.right;
+                }
+            }
         }
+        return max;
     }
-
 }
