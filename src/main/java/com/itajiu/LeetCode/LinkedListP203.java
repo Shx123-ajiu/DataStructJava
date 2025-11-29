@@ -46,6 +46,4 @@ public class LinkedListP203 {
     }
 
 
-    //方法3
-
 }
