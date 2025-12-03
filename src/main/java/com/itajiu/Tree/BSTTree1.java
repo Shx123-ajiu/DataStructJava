@@ -1,5 +1,9 @@
 package com.itajiu.Tree;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author ${阿鸠}
  * @Date ${2025/11/11} ${23.59}
@@ -365,21 +369,24 @@ public class BSTTree1 {
 
     //非递归方法
     public Object delete(int key) {
-        return doDelete(root, key);
+        ArrayList<Object> result = new ArrayList<>();
+        root = doDelete(root, key, result);
+        return null;
     }
 
-    private BSTNode doDelete(BSTNode node, int key) {
+    private BSTNode doDelete(BSTNode node, int key, ArrayList<Object> result) {
         if (node == null) {
             return null;
         }
         if (key < node.key) {
-            node.left = doDelete(node.left, key);
+            node.left = doDelete(node.left, key, result);
             return node;
         }
         if (key > node.key) {
-            node.right = doDelete(node.right, key);
+            node.right = doDelete(node.right, key, result);
             return node;
         }
+        result.add(node.value);
         //情况1 只有右孩子
         if (node.left == null) {
             return node.right;
@@ -393,9 +400,74 @@ public class BSTTree1 {
         while (s.left != null) {
             s = s.left;
         }
+        s.right = doDelete(node.right, s.key, new ArrayList<>());
         s.left = node.left;
         return s;
 
+    }
+
+    //找 < key 的所有value值
+    public List<Object> less(int key) {
+        ArrayList<Object> result = new ArrayList<>();
+        BSTNode p = root;
+        LinkedList<BSTNode> stack = new LinkedList<>();
+        while (p != null || !stack.isEmpty()) {
+            if (p != null) {
+                stack.push(p);
+                p = p.left;
+            } else {
+                BSTNode pop = stack.pop();
+                if (pop.key < key) {
+                    result.add(pop.value);
+                } else {
+                    break;
+                }
+                p = pop.right;
+            }
+        }
+        return result;
+    }
+
+    //找 > key 的所有value值
+    public List<Object> greater(int key) {
+        ArrayList<Object> result = new ArrayList<>();
+        BSTNode p = root;
+        LinkedList<BSTNode> stack = new LinkedList<>();
+        while (p != null || !stack.isEmpty()) {
+            if (p != null) {
+                stack.push(p);
+                p = p.right;
+            } else {
+                BSTNode pop = stack.pop();
+                if (pop.key > key) {
+                    result.add(pop.value);
+                } else {
+                    break;
+                }
+                p = pop.left;
+            }
+        }
+        return result;
+    }
+
+    //找 >= key1 && <= key2 的所有value值
+    public List<Object> between(int key1, int key2) {
+        ArrayList<Object> result = new ArrayList<>();
+        BSTNode p = root;
+        LinkedList<BSTNode> stack = new LinkedList<>();
+        while (p != null || !stack.isEmpty()) {
+            if (p != null) {
+                stack.push(p);
+                p = p.left;
+            } else {
+                BSTNode pop = stack.pop();
+                if (pop.key >= key1 && pop.key <= key2) {
+                    result.add(pop.value);
+                }
+                pop = pop.right;
+            }
+        }
+        return result;
     }
 
 }
