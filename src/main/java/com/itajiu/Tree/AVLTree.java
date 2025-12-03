@@ -173,7 +173,30 @@ public class AVLTree {
     }
 
     //检查节点是否失衡，重新平衡代码
+    private AVLNode balance(AVLNode node) {
+        if (node == null) {
+            return null;
+        }
+        int bf = bf(node);
+        // 0 1 -1 是正常
+        //LL
+        if (bf > 1) {
 
+        }
+        //LR
+        else if (bf > -1) {
+
+        }
+        //RL
+        else if (bf < -1) {
+
+        }
+        //RR
+        else if (bf < 1) {
+
+        }
+        return node;
+    }
 
 
 }
