@@ -180,7 +180,7 @@ public class AVLTree {
         int bf = bf(node);
         // 0 1 -1 是正常
         //LL
-        if (bf > 1 && bf(node.left) > 0) {
+        if (bf > 1 && bf(node.left) >= 0) {
             return rightRotate(node);
         }
         //LR
@@ -192,7 +192,7 @@ public class AVLTree {
             return rightLeftRotate(node);
         }
         //RR
-        else if (bf < 1 && bf(node.right) < 0) {
+        else if (bf < 1 && bf(node.right) <= 0) {
             return leftRotate(node);
         }
         return node;
