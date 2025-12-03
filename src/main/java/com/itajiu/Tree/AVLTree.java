@@ -55,6 +55,26 @@ public class AVLTree {
     // bf > 1 左边更高
     // bf < -1 右边更高
 
+    /*
+
+    LL
+      - 失衡节点的 bf>1，即左边更高
+      - 失衡节点的左孩子的bf>=0,即左孩子这边是左边更高或等高
+
+    LR
+      - 失衡节点的bf>1，即左边更高
+      - 失衡节点的左孩子的bf<0即左孩子这边是右边更高
+
+    RL
+      - 失衡节点的 bf<-1，即右边更高
+      - 失衡节点的右孩子的bf>0，即右孩子这边是左边更高
+
+    RR
+      - 失衡节点的bf<-1，即右边更高
+      - 失衡节点的右孩子的bf<=0，即右孩子这边是右边更高或等高
+
+     */
+
 
     // 右旋代码
     // 参数: 要旋转的节点
@@ -77,6 +97,8 @@ public class AVLTree {
         //旋转
         yellow.right = red;  //上位
         red.left = green;    //换爹
+        updateHeight(red);
+        updateHeight(yellow);
         return yellow;
     }
 
@@ -103,6 +125,8 @@ public class AVLTree {
         //旋转
         yellow.left = red;
         red.right = green;
+        updateHeight(red);
+        updateHeight(yellow);
         return yellow;
     }
 
@@ -124,6 +148,8 @@ public class AVLTree {
     private AVLNode leftRightRotate(AVLNode node) {
         leftRotate(node.left);
         return rightRotate(node);
+
+
     }
 
 
@@ -146,25 +172,8 @@ public class AVLTree {
         return leftRotate(node);
     }
 
+    //检查节点是否失衡，重新平衡代码
 
-    /*
-    LL
-      - 失衡节点的 bf>1，即左边更高
-      - 失衡节点的左孩子的bf>=0,即左孩子这边是左边更高或等高
-
-    LR
-      - 失衡节点的bf>1，即左边更高
-      - 失衡节点的左孩子的bf<0即左孩子这边是右边更高
-
-    RL
-      - 失衡节点的 bf<-1，即右边更高
-      - 失衡节点的右孩子的bf>0，即右孩子这边是左边更高
-
-    RR
-      - 失衡节点的bf<-1，即右边更高
-      - 失衡节点的右孩子的bf<=0，即右孩子这边是右边更高或等高
-
-     */
 
 
 }
