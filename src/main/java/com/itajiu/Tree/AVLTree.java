@@ -199,4 +199,74 @@ public class AVLTree {
     }
 
 
+    //新增 更新
+    AVLNode root;
+
+    public void put(int key, Object value) {
+        root = doPut(root, key, value);
+    }
+
+    //新增更新
+    public AVLNode doPut(AVLNode node, int key, Object value) {
+        //1. 找到空位，创建新节点
+        if (node == null) {
+            return new AVLNode(key, value);
+        }
+        //2. key 已存在，更新
+        if (key == node.key) {
+            node.value = value;
+            return node;
+        }
+        //3. 继续查找
+        if (key < node.key) {
+            node.left = doPut(node.left, key, value);  //向左
+        } else {
+            node.right = doPut(node.right, key, value); //向右
+        }
+        updateHeight(node);
+        return balance(node);
+    }
+
+
+    public void remove(int key) {
+        root = doRemove(root, key);
+    }
+
+
+    private AVLNode doRemove(AVLNode node, int key) {
+        //1. node为空
+        if (node == null) {
+            return null;
+        }
+        //2. 没找到key
+
+        if (key < node.key) {
+            node.left = doRemove(node.left, key);
+        } else if (key > node.key) {
+            node.right = doRemove(node.right, key);
+        } else {
+            //3. 没找到key 1.没有 2.只有一个孩子 3.有两个孩子
+            if (node.left == null && node.right == null) {
+                return null;
+            } else if (node.left == null) {
+                node = node.right;
+            } else if (node.right == null) {
+                node = node.left;
+            } else {
+                AVLNode s = node.right;
+                while (s.left != null) {
+                    s = s.left;
+                }
+                // s 后继节点
+                s.right = doRemove(node.right, s.key);
+                s.left = node.left;
+                node = s;
+            }
+        }
+
+        //4. 更新高度
+        updateHeight(node);
+        //5. balance
+        return balance(node);
+    }
 }
